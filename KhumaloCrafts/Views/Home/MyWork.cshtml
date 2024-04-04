@@ -1,0 +1,123 @@
+﻿@model List<Product>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+@{
+    ViewData["Title"] = "MyWork";
+}
+</head>
+<body>
+    <div class="header">
+        <h1 class="display-4">My Work</h1>
+    </div>
+
+    <div class="pagebody">
+        <fieldset class="first">
+            <h3 class="myworkheader">Sculpture Art Crafts</h3>
+            <div class="flex-container">
+                @foreach (var product in Model.Where(p => p.ArtForm == "Sculpture"))
+                {
+                    <div class="product">
+                        <h3>@product.Title</h3>
+                        <img src="@Url.Content(product.ImageUrl)" alt="@product.Title" class="fixed-size-image">
+                        <p>Art Form: @product.ArtForm</p>
+                        <p>Artist: @product.Artist</p>
+                        <p>Description: @product.Description</p>
+                        <p>Price: @product.Price.ToString("C")</p>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <h3 class="myworkheader">Wood Carving Crafts</h3>
+            <div class="flex-container">
+                @foreach (var product in Model.Where(p => p.ArtForm == "Wood Carving"))
+                {
+                    <div class="product">
+                        <h3>@product.Title</h3>
+                        <img src="@Url.Content(product.ImageUrl)" alt="@product.Title" class="fixed-size-image">
+                        <p>Art Form: @product.ArtForm</p>
+                        <p>Artist: @product.Artist</p>
+                        <p>Description: @product.Description</p>
+                        <p>Price: @product.Price.ToString("C")</p>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <h3 class="myworkheader">Painting Art crafts</h3>
+            <div class="flex-container">
+                @foreach (var product in Model.Where(p => p.ArtForm == "Painting"))
+                {
+                    <div class="product">
+                        <h3>@product.Title</h3>
+                        <img src="@Url.Content(product.ImageUrl)" alt="@product.Title" class="fixed-size-image">
+                        <p>Art Form: @product.ArtForm</p>
+                        <p>Artist: @product.Artist</p>
+                        <p>Description: @product.Description</p>
+                        <p>Price: @product.Price.ToString("C")</p>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <h3 class="myworkheader">Pottery Art Crafts</h3>
+            <div class="flex-container">
+                @foreach (var product in Model.Where(p => p.ArtForm == "Pottery"))
+                {
+                    <div class="product">
+                        <h3>@product.Title</h3>
+                        <img src="@Url.Content(product.ImageUrl)" alt="@product.Title" class="fixed-size-image">
+                        <p>Art Form: @product.ArtForm</p>
+                        <p>Artist: @product.Artist</p>
+                        <p>Description: @product.Description</p>
+                        <p>Price: @product.Price.ToString("C")</p>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <h3 class="myworkheader">Beadwork Art Crafts</h3>
+            <div class="flex-container">
+                @foreach (var product in Model.Where(p => p.ArtForm == "Beadwork"))
+                {
+                    <div class="product">
+                        <h3>@product.Title</h3>
+                        <img src="@Url.Content(product.ImageUrl)" alt="@product.Title" class="fixed-size-image">
+                        <p>Art Form: @product.ArtForm</p>
+                        <p>Artist: @product.Artist</p>
+                        <p>Description: @product.Description</p>
+                        <p>Price: @product.Price.ToString("C")</p>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <h3 class="myworkheader">Glass Art Crafts</h3>
+            <div class="flex-container">
+                @foreach (var product in Model.Where(p => p.ArtForm == "Glass"))
+                {
+                    <div class="product">
+                        <h3>@product.Title</h3>
+                        <img src="@Url.Content(product.ImageUrl)" alt="@product.Title" class="fixed-size-image">
+                        <p>Art Form: @product.ArtForm</p>
+                        <p>Artist: @product.Artist</p>
+                        <p>Description: @product.Description</p>
+                        <p>Price: @product.Price.ToString("C")</p>
+                    </div>
+                }
+            </div>
+           
+        </fieldset>
+    </div>
+</body>
+
+
+</html>
