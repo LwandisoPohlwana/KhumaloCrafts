@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Database_Layer.DatabaseEntities.Product>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    @{
+        ViewData["Title"] = "CreateTransaction";
+    }
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="display-4">Transactions</h1>
+    </div>
+
+    <h1>Selected Products</h1>
+    <ul>
+        @foreach (var product in Model)
+        {
+            <li>@product.Title - Price: @product.Price</li>
+        }
+    </ul>
+
+    <h2>Total Amount: @Model.Sum(p => p.Price)</h2>
+
+    <form method="post" action="/Transaction/Create">
+   
+        <button type="submit">Purchase</button>
+    </form>
+</body>
+</html>

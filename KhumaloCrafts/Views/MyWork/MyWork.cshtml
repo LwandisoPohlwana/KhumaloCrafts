@@ -1,0 +1,57 @@
+﻿@using System.Collections
+@model IEnumerable<Database_Layer.DatabaseEntities.Product>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+@{
+    ViewData["Title"] = "MyWork";
+}
+
+    </head>
+<body>
+    <div class="header">
+        <h1 class="display-4">My Work</h1>
+    </div>
+
+    <div class="pagebody">
+        <form asp-controller="Transaction" asp-action="Create" method="post">
+            @foreach (var artForm in ViewBag.ArtForms)
+            {
+                <fieldset class="first">
+                    <legend>@artForm</legend>
+                    <div class="flex-container">
+                        @foreach (var product in Model.Where(p => p.ArtForm == artForm))
+                        {
+                            <div class="product">
+                                <h3>@product.Title</h3>
+                                <img src="@Url.Content(product.ImageUrl)" alt="@product.Title" class="fixed-size-image">
+                                <p>Art Form: @product.ArtForm</p>
+                                <p>Artist: @product.Artist</p>
+                                <p>Description: @product.Description</p>
+                                <p>Price: @product.Price.ToString("C")</p>
+                                <p>Availability: @(product.Available ? "Available" : "Not Available")</p>
+                                <!-- Add checkbox for product selection -->
+                                <label class="container custom-checkbox">
+                                    <input type="checkbox" name="productIds" value="@product.ProductId" id="product-@product.ProductId">
+                                    <div class="line"></div>
+                                    <div class="line line-indicator"></div>
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            }
+            <button type="submit" class="learn-more">
+                <span class="circle" aria-hidden="true">
+                    <span class="icon arrow"></span>
+                </span>
+                <span class="button-text">Purchase</span>
+            </button>
+        </form>
+    </div>
+</body>
+
+
+</html>
