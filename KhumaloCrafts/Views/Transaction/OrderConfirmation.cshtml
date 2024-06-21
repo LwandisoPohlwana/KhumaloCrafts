@@ -1,0 +1,29 @@
+﻿@model Logic_Layer.ViewModels.OrderSummaryViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    @{
+        ViewData["Title"] = "OrderSummary";
+    }
+</head>
+<body>
+    <div class="header">
+        <h1 class="display-4">Order Summary</h1>
+    </div>
+    <div class="pagebody">
+        <h2>Order Summary</h2>
+        <ul>
+            @foreach (var product in Model.Products)
+            {
+                <li>@product.Title - $@product.Price</li>
+            }
+        </ul>
+        <p>Total Amount: $@Model.TotalAmount</p>
+        <form asp-action="ConfirmOrder" method="post">
+            <button type="submit">Confirm Order</button>
+        </form>
+    </div>
+</body>
+</html>

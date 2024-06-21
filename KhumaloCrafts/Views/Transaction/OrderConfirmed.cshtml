@@ -1,0 +1,42 @@
+﻿@model Logic_Layer.ViewModels.OrderSummaryViewModel
+
+<h2>Order Summary</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>Art Form</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Title</td>
+                <td>@product.Description</td>
+                <td>@product.ArtForm</td>
+                <td>@product.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Total Amount: @Model.TotalAmount</h3>
+
+<form asp-action="ConfirmOrder" method="post">
+    @Html.HiddenFor(model => model.UserId)
+    @Html.HiddenFor(model => model.TotalAmount)
+    @Html.HiddenFor(model => model.Quantity)
+    @for (int i = 0; i < Model.Products.Count; i++)
+    {
+        @Html.HiddenFor(model => model.Products[i].ProductId)
+        @Html.HiddenFor(model => model.Products[i].Title)
+        @Html.HiddenFor(model => model.Products[i].Description)
+        @Html.HiddenFor(model => model.Products[i].ArtForm)
+        @Html.HiddenFor(model => model.Products[i].Price)
+    }
+    <button type="submit">Confirm Order</button>
+</form>

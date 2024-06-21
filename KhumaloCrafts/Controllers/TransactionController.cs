@@ -1,75 +1,115 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Logic_Layer.Interfaces;
 using Database_Layer.DatabaseEntities;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Logic_Layer.Services;
+using Logic_Layer.ViewModels;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 
 [Authorize]
 public class TransactionController : Controller
 {
-    private readonly ITransactionLogicService _transactionLogicService;
+    private readonly ITransactionLogic _transactionLogic;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IConfiguration _configuration;
 
-    public TransactionController(ITransactionLogicService transactionLogicService)
+    public TransactionController(ITransactionLogic transactionLogic, IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
-        _transactionLogicService = transactionLogicService;
+        _transactionLogic = transactionLogic;
+        _httpClientFactory = httpClientFactory;
+        _configuration = configuration;
     }
 
     // GET: Transaction/Create
     public async Task<IActionResult> Transaction()
     {
-        // Get the current user's ID
         var userId = GetUserId();
-
-        // Get transactions for the current user
-        var transactions = await _transactionLogicService.GetTransactionsByUserIdAsync(userId);
-
+        var transactions = await _transactionLogic.GetTransactionsByUserIdAsync(userId);
         return View("~/Views/Transaction/Transaction.cshtml", transactions);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Search(string searchTerm)
+    {
+        var products = await _transactionLogic.SearchProductsAsync(searchTerm);
+        var model = new SearchViewModel
+        {
+            SearchTerm = searchTerm,
+            Products = products.Select(p => new ProductViewModel
+            {
+                ProductId = p.ProductId,
+                Title = p.Title,
+                Description = p.Description,
+                ArtForm = p.ArtForm,
+                Price = p.Price
+            }).ToList()
+        };
+
+        return View(model);
     }
 
     // POST: Transaction/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(List<int> productIds)
+    public async Task<IActionResult> AddToOrderSummary(List<int> productIds)
     {
         if (productIds == null || !productIds.Any())
         {
-            // No products selected, return to the MyWork view
             return RedirectToAction("MyWork", "MyWork");
         }
 
         try
         {
-            // Get the current user ID
             var userId = GetUserId();
+            var products = await _transactionLogic.GetProductsByIdsAsync(productIds);
+            var totalAmount = products.Sum(p => p.Price);
+            var quantity = products.Count;
 
-            // Calculate total amount and quantity based on products
-            decimal totalAmount = 0;
-            int quantity = 0;
-            var products = await _transactionLogicService.GetProductsByIdsAsync(productIds);
-            foreach (var product in products)
+            var orderSummary = new OrderSummaryViewModel
             {
-                totalAmount += product.Price;
-                quantity++;
-            }
+                UserId = userId,
+                TotalAmount = totalAmount,
+                Quantity = quantity,
+                Products = products.Select(p => new ProductViewModel
+                {
+                    ProductId = p.ProductId,
+                    Title = p.Title,
+                    Description = p.Description,
+                    ArtForm = p.ArtForm,
+                    Price = p.Price,
+                    Quantity = 1 // Assuming quantity of 1 for simplicity
+                }).ToList()
+            };
 
-            // Create the transaction
-            await _transactionLogicService.CreateTransactionAsync(userId, productIds, quantity, totalAmount, DateTime.Now);
-
-            return RedirectToAction("Transaction", "Transaction");
+            return View("OrderSummary", orderSummary);
         }
         catch (Exception ex)
         {
-            ModelState.AddModelError(string.Empty, "Unable to create transaction: " + ex.Message);
-            // Handle the error - for example, display an error message or return to the MyWork view
+            ModelState.AddModelError(string.Empty, "Unable to create order summary: " + ex.Message);
             return RedirectToAction("MyWork", "MyWork");
         }
     }
-private int GetUserId()
+
+    // Confirm the order and start the transaction
+    [HttpPost]
+    public async Task<IActionResult> ConfirmOrder(OrderSummaryViewModel model)
+    {
+        await _transactionLogic.ConfirmOrderAsync(model);
+        return RedirectToAction("OrderConfirmed", new { userId = model.UserId });
+    }
+
+    public IActionResult OrderConfirmed(string userId)
+    {
+        ViewBag.UserId = userId;
+        return View();
+    }
+
+    private int GetUserId()
     {
         var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -80,10 +120,10 @@ private int GetUserId()
         else
         {
             // Handle the case where the user ID cannot be parsed
-            // For example, return a default user ID or throw an exception
             throw new InvalidOperationException("Unable to retrieve the user ID.");
         }
     }
+
     // GET: Transaction/ViewTransactions
     public async Task<IActionResult> ViewTransactions()
     {
@@ -91,11 +131,9 @@ private int GetUserId()
         var userId = GetUserId();
 
         // Get transactions for the current user
-        var transactions = await _transactionLogicService.GetTransactionsByUserIdAsync(userId);
+        var transactions = await _transactionLogic.GetTransactionsByUserIdAsync(userId);
 
         return View(transactions);
     }
-
-    // Helper method to get the current user ID
     
 }

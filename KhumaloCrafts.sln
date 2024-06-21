@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic Layer", "Logic Layer\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database Layer", "Database Layer\Database Layer.csproj", "{FB4310B1-B569-412B-ABF4-DA187B6BA86C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KhumaloCraftsFunctions", "KhumaloCraftsFunctions\KhumaloCraftsFunctions.csproj", "{46CE2E0F-1276-4E7D-B02C-3AECCF266FF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FB4310B1-B569-412B-ABF4-DA187B6BA86C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB4310B1-B569-412B-ABF4-DA187B6BA86C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB4310B1-B569-412B-ABF4-DA187B6BA86C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46CE2E0F-1276-4E7D-B02C-3AECCF266FF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46CE2E0F-1276-4E7D-B02C-3AECCF266FF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46CE2E0F-1276-4E7D-B02C-3AECCF266FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46CE2E0F-1276-4E7D-B02C-3AECCF266FF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

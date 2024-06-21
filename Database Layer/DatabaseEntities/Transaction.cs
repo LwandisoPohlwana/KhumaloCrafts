@@ -15,8 +15,9 @@ namespace  Database_Layer.DatabaseEntities
         public int UserId { get; set; }
         public User User { get; set; }
 
+        public ICollection<TransactionDetail> TransactionDetails { get; set; }
         public ICollection<Product> Products { get; set; }
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } // Define Quantity property
     }
+
 }

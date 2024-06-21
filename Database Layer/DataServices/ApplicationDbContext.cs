@@ -24,22 +24,31 @@ namespace Database_Layer.DataServices
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<TransactionDetail> TransactionDetails { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Transaction>()
-     .HasKey(t => t.TransactionId);
+                .HasKey(t => t.TransactionId);
 
             modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.User)
                 .WithMany(u => u.Transactions)
                 .HasForeignKey(t => t.UserId);
 
-            modelBuilder.Entity<Transaction>()
-                .HasMany(t => t.Products)
-                .WithMany(p => p.Transactions)
-                .UsingEntity(j => j.ToTable("TransactionProducts"));
+            modelBuilder.Entity<TransactionDetail>()
+                .HasKey(td => td.TransactionDetailId);
+
+            modelBuilder.Entity<TransactionDetail>()
+                .HasOne(td => td.Transaction)
+                .WithMany(t => t.TransactionDetails)
+                .HasForeignKey(td => td.TransactionId);
+
+            modelBuilder.Entity<TransactionDetail>()
+                .HasOne(td => td.Product)
+                .WithMany(p => p.TransactionDetails)
+                .HasForeignKey(td => td.ProductId);
 
             modelBuilder.Entity<User>()
                 .HasKey(u => u.UserId);

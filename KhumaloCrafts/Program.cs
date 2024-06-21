@@ -13,9 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ITransactionLogicService, TransactionLogicService>();
 builder.Services.AddScoped<IUserRegistrationService, UserRegistrationService>();
+builder.Services.AddScoped<ITransactionLogic, TransactionLogic>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+
 
 var configuration = builder.Configuration;
 

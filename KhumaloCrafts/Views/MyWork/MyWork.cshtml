@@ -16,7 +16,7 @@
     </div>
 
     <div class="pagebody">
-        <form asp-controller="Transaction" asp-action="Create" method="post">
+        <form asp-controller="Transaction" asp-action="AddToOrderSummary" method="post">
             @foreach (var artForm in ViewBag.ArtForms)
             {
                 <fieldset class="first">

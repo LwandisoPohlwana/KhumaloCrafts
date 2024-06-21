@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	<TargetFramework>net8.0</TargetFramework>
+	<AzureFunctionsVersion>v4</AzureFunctionsVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Database Layer\Database Layer.csproj" />
+    <ProjectReference Include="..\Logic Layer\Logic Layer.csproj" />
+	  <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.DurableTask" Version="2.13.4" />
+	  <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.4.0" />
+	  <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+</Project>

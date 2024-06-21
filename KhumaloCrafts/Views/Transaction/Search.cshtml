@@ -1,0 +1,46 @@
+﻿@model Logic_Layer.ViewModels.SearchViewModel
+
+<h2>Search Products</h2>
+
+<form asp-action="Search" method="get">
+    <input type="text" name="searchTerm" placeholder="Search for products..." value="@Model.SearchTerm" />
+    <button type="submit">Search</button>
+</form>
+
+@if (Model.Products != null && Model.Products.Any())
+{
+    <h3>Search Results</h3>
+    <form asp-action="AddToOrderSummary" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Art Form</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="productIds" value="@product.ProductId" />
+                        </td>
+                        <td>@product.Title</td>
+                        <td>@product.Description</td>
+                        <td>@product.ArtForm</td>
+                        <td>@product.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit">Add to Order</button>
+    </form>
+}
+else
+{
+    <p>No products found.</p>
+}
+

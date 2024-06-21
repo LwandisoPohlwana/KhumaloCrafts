@@ -17,7 +17,9 @@ namespace Database_Layer.DatabaseEntities
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
         public bool Available { get; set; }
+        public int StockQuantity { get; set; }  // New property for stock quantity
         public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<TransactionDetail> TransactionDetails { get; set; }
     }
 }
 
